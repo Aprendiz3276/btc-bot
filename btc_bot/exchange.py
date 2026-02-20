@@ -80,8 +80,8 @@ class ExchangeClient:
                 log.warning("🧪 PAPER TRADING: exchange sin sandbox, "
                             "órdenes serán simuladas localmente")
 
-        log.info(f"Exchange inicializado: {EXCHANGE_NAME} | "
-                 f"Symbol: {SYMBOL} | Leverage: {LEVERAGE}x")
+        log.info("Exchange inicializado: %s | Symbol: %s | Leverage: %sx",
+                 EXCHANGE_NAME, SYMBOL, LEVERAGE)
 
     # ── Retry helper ────────────────────────────────────────────────────────
     def _call_with_retry(self, func, *args, **kwargs):
@@ -89,20 +89,20 @@ class ExchangeClient:
         for attempt in range(1, MAX_RETRIES + 1):
             try:
                 return func(*args, **kwargs)
-            except ccxt.OnMaintenance as e:
-                log.warning(f"Exchange en mantenimiento. "
-                            f"Pausando {MAINTENANCE_PAUSE_MIN} min...")
+            except ccxt.OnMaintenance:
+                log.warning("Exchange en mantenimiento. "
+                            "Pausando %s min...", MAINTENANCE_PAUSE_MIN)
                 time.sleep(MAINTENANCE_PAUSE_MIN * 60)
                 # No contar como intento fallido
             except (ccxt.NetworkError, ccxt.RequestTimeout) as e:
                 wait = 2 ** attempt   # 2, 4, 8 segundos
-                log.warning(f"Error de red (intento {attempt}/{MAX_RETRIES}): "
-                            f"{e}. Reintentando en {wait}s...")
+                log.warning("Error de red (intento %s/%s): %s. Reintentando en %ss...",
+                            attempt, MAX_RETRIES, str(e), wait)
                 if attempt == MAX_RETRIES:
                     raise
                 time.sleep(wait)
             except ccxt.ExchangeError as e:
-                log.error(f"Error del exchange: {e}")
+                log.error("Error del exchange: %s", str(e))
                 raise
 
     # ── Datos de mercado ────────────────────────────────────────────────────
@@ -142,10 +142,10 @@ class ExchangeClient:
                 self.exchange.set_leverage,
                 LEVERAGE, SYMBOL
             )
-            log.info(f"Apalancamiento configurado: {LEVERAGE}x en {SYMBOL}")
+            log.info("Apalancamiento configurado: %sx en %s", LEVERAGE, SYMBOL)
         except ccxt.ExchangeError as e:
             # Algunos exchanges no permiten cambiar apalancamiento vía API
-            log.warning(f"No se pudo configurar apalancamiento: {e}")
+            log.warning("No se pudo configurar apalancamiento: %s", str(e))
 
     def set_position_mode(self, hedge: bool = False):
         """Configura hedge mode (True) u one-way mode (False). Solo Binance."""
@@ -156,10 +156,10 @@ class ExchangeClient:
                     {"dualSidePosition": "true" if hedge else "false"}
                 )
                 mode = "hedge" if hedge else "one-way"
-                log.info(f"Modo de posición configurado: {mode}")
-            except Exception as e:
+                log.info("Modo de posición configurado: %s", mode)
+            except ccxt.ExchangeError as e:
                 log.warning(
-                    f"set_position_mode: {e} (puede ya estar configurado)")
+                    "set_position_mode: %s (puede ya estar configurado)", str(e))
 
     # ── Gestión de órdenes ──────────────────────────────────────────────────
     def create_limit_order(self, side: str, amount: float,
@@ -172,8 +172,9 @@ class ExchangeClient:
         """
         params = params or {}
         if PAPER_TRADING and not hasattr(self.exchange, "set_sandbox_mode"):
-            log.info(f"[PAPER] Orden LIMIT {side.upper()} | "
-                     f"Qty: {amount:.6f} BTC @ {price:.2f} USDT | params: {params}")
+            log.info("[PAPER] Orden LIMIT %s | "
+                     "Qty: %.6f BTC @ %.2f USDT | params: %s",
+                     side.upper(), amount, price, params)
             return {"id": "PAPER_ORDER", "side": side,
                     "amount": amount, "price": price, "status": "open"}
 
@@ -189,8 +190,9 @@ class ExchangeClient:
         if PAPER_TRADING and not hasattr(self.exchange, "set_sandbox_mode"):
             ticker = self.fetch_ticker()
             price = ticker["last"]
-            log.info(f"[PAPER] Orden MARKET {side.upper()} | "
-                     f"Qty: {amount:.6f} BTC @ ~{price:.2f} USDT")
+            log.info("[PAPER] Orden MARKET %s | "
+                     "Qty: %.6f BTC @ ~%.2f USDT",
+                     side.upper(), amount, price)
             return {"id": "PAPER_MARKET", "side": side,
                     "amount": amount, "price": price, "status": "closed"}
 
@@ -203,7 +205,7 @@ class ExchangeClient:
                                  stop_price: float) -> dict:
         """Crea orden stop-market para stop loss."""
         if PAPER_TRADING and not hasattr(self.exchange, "set_sandbox_mode"):
-            log.info(f"[PAPER] Stop-Market {side.upper()} @ {stop_price:.2f}")
+            log.info("[PAPER] Stop-Market %s @ %.2f", side.upper(), stop_price)
             return {"id": "PAPER_STOP", "stopPrice": stop_price}
 
         # Params diferenciados por exchange
@@ -239,9 +241,10 @@ class ExchangeClient:
         for order in open_orders:
             try:
                 self.cancel_order(order["id"])
-                log.info(f"Orden cancelada: {order['id']}")
-            except Exception as e:
-                log.warning(f"No se pudo cancelar orden {order['id']}: {e}")
+                log.info("Orden cancelada: %s", order['id'])
+            except ccxt.ExchangeError as e:
+                log.warning("No se pudo cancelar orden %s: %s",
+                            order['id'], str(e))
 
     def get_current_price(self) -> float:
         """Devuelve el último precio del ticker."""

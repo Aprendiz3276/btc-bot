@@ -20,7 +20,7 @@ from btc_bot.notifier import TelegramNotifier
 def execute_cycle(client, strategy, risk, pm, notifier):
     """Un ciclo completo del bot — reutilizable en ambos modos."""
     current_price = client.get_current_price()
-    log.info(f"─── Ciclo | BTC: {current_price:.2f} USDT ───")
+    log.info("─── Ciclo | BTC: %.2f USDT ───", current_price)
 
     if pm.has_open_position():
         log.info("📊 Posición activa — monitoreando niveles...")
@@ -58,13 +58,13 @@ def execute_cycle(client, strategy, risk, pm, notifier):
                     f"SL: {signal['sl']:.2f} | TP1: {signal['tp1']:.2f}"
                 )
         else:
-            log.info(f"💤 Sin señal ({reason})")
+            log.info("💤 Sin señal (%s)", reason)
 
 
 def run_once():
     """Ejecuta UN solo ciclo — usado por GitHub Actions."""
     log.info("=" * 50)
-    log.info(f"🔁 Ciclo único | Paper: {PAPER_TRADING}")
+    log.info("🔁 Ciclo único | Paper: %s", PAPER_TRADING)
     log.info("=" * 50)
 
     client = ExchangeClient()
@@ -78,13 +78,13 @@ def run_once():
     try:
         execute_cycle(client, strategy, risk, pm, notifier)
     except Exception as e:
-        log.error(f"Error en ciclo: {e}\n{traceback.format_exc()}")
+        log.error("Error en ciclo: %s\n%s", str(e), traceback.format_exc())
 
 
 def run_bot():
     """Loop infinito — usado en VPS."""
     log.info("=" * 50)
-    log.info(f"🚀 Bot iniciado en loop | Paper: {PAPER_TRADING}")
+    log.info("🚀 Bot iniciado en loop | Paper: %s", PAPER_TRADING)
     log.info("=" * 50)
 
     client = ExchangeClient()
@@ -104,11 +104,11 @@ def run_bot():
             log.info("🛑 Bot detenido.")
             break
         except Exception as e:
-            log.error(f"Error: {e}\n{traceback.format_exc()}")
+            log.error("Error: %s\n%s", str(e), traceback.format_exc())
 
         elapsed = time.time() - cycle_start
         wait = max(0, LOOP_INTERVAL_SECONDS - elapsed)
-        log.info(f"⏱️ Próximo ciclo en {wait:.0f}s...")
+        log.info("⏱️ Próximo ciclo en %.0fs...", wait)
         time.sleep(wait)
 
 
