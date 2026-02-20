@@ -1,21 +1,129 @@
-# Secretos — NUNCA subir al repo
+# ==========================================
+# SECRETOS Y CONFIGURACIÓN
+# ==========================================
 .env
+.env.local
+.env.*.local
 state.json
+config_local.py
+secrets/
 
-# Logs
+# ==========================================
+# LOGS Y DATOS TEMPORALES
+# ==========================================
 *.log
 logs/
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
 
-# Python
+# ==========================================
+# PYTHON
+# ==========================================
 __pycache__/
-*.pyc
-*.pyo
-.venv/
-venv/
+*.py[cod]
+*$py.class
+*.so
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+*.egg-info/
 dist/
 build/
-*.egg-info/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg
 
-# IDEs
+# ==========================================
+# VIRTUAL ENVIRONMENTS
+# ==========================================
+.venv/
+venv/
+ENV/
+env/
+.venv
+.venv-*
+env.bak/
+venv.bak/
+
+# ==========================================
+# IDEs Y EDITORES
+# ==========================================
 .vscode/
+.vscode-insiders/
 .idea/
+.idea_modules/
+*.swp
+*.swo
+*~
+.sublime-project
+.sublime-workspace
+.DS_Store
+*.iml
+*.iws
+.gradle
+
+# ==========================================
+# COMPILACIÓN
+# ==========================================
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+
+# ==========================================
+# SISTEMA OPERATIVO
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ==========================================
+# BASES DE DATOS Y DATOS LOCALES
+# ==========================================
+*.db
+*.sqlite
+*.sqlite3
+*.sql
+data/
+*.csv
+
+# ==========================================
+# HERRAMIENTAS DE ANÁLISIS
+# ==========================================
+.bandit
+.pylint.d/
+.hypothesis/
+
+# ==========================================
+# ARCHIVOS DE ENTRADA/SALIDA DEL BOT
+# ==========================================
+output/
+results/
+backtest_results/
+trades.csv
+positions.csv
