@@ -24,7 +24,6 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run bot once
-        run: python -m btc_bot.main --once
         continue-on-error: true
         env:
           EXCHANGE_NAME: ${{ secrets.EXCHANGE_NAME }}
@@ -49,4 +48,4 @@ jobs:
           OKX_DEMO: ${{ secrets.OKX_DEMO }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-# Testing workflow
+        run: python -m btc_bot.main --once

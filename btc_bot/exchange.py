@@ -75,7 +75,8 @@ class ExchangeClient:
             # Activar sandbox si el exchange lo soporta
             if hasattr(self.exchange, "set_sandbox_mode"):
                 self.exchange.set_sandbox_mode(True)
-                log.info("[PAPER] PAPER TRADING activo — modo sandbox habilitado")
+                log.info(
+                    "[PAPER] PAPER TRADING activo — modo sandbox habilitado")
             else:
                 log.warning("[PAPER] PAPER TRADING: exchange sin sandbox, "
                             "órdenes serán simuladas localmente")
