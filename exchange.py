@@ -74,6 +74,16 @@ class ExchangeClient:
 
         log.info(f"Exchange inicializado: {EXCHANGE_NAME} | "
                  f"Symbol: {SYMBOL} | Leverage: {LEVERAGE}x")
+        
+import os
+
+# ── OKX DEMO: header obligatorio para demo trading ─────────────
+# OKX requiere: x-simulated-trading: 1 para llamadas de demo
+if EXCHANGE_NAME == "okx" and os.getenv("OKX_DEMO", "false").lower() == "true":
+    self.exchange.headers = self.exchange.headers or {}
+    self.exchange.headers["x-simulated-trading"] = "1"
+    log.info("OKX_DEMO activo → header x-simulated-trading=1 habilitado")
+    
 
     # ── Retry helper ────────────────────────────────────────────────────────
     def _call_with_retry(self, func, *args, **kwargs):
@@ -239,3 +249,4 @@ class ExchangeClient:
         """Devuelve el último precio del ticker."""
         ticker = self.fetch_ticker()
         return float(ticker["last"])
+
