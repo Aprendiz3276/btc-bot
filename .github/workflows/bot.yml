@@ -1,4 +1,4 @@
-name: "BTC Bot"
+name: BTC Bot
 
 on:
   schedule:
