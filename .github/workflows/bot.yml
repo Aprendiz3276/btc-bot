@@ -25,6 +25,7 @@ jobs:
 
       - name: Run bot once
         run: python -m btc_bot.main --once
+        continue-on-error: true
         env:
           EXCHANGE_NAME: ${{ secrets.EXCHANGE_NAME }}
           API_KEY: ${{ secrets.API_KEY }}
