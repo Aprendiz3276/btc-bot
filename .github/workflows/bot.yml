@@ -2,8 +2,8 @@ name: BTC Bot
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
-  workflow_dispatch:�n manual en GitHub
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
 
 jobs:
   run-bot:
@@ -11,36 +11,40 @@ jobs:
     timeout-minutes: 4
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-          cache: 'pip'
+          python-version: "3.11"
+          cache: "pip"
 
-      - run: pip install -r requirements.txt
+      - name: Install deps
+        run: pip install -r requirements.txt
 
-      - run: python -m btc_bot.main --once
+      - name: Run bot once
+        run: python -m btc_bot.main --once
         env:
-          EXCHANGE_NAME:         ${{ secrets.EXCHANGE_NAME }}
-          API_KEY:               ${{ secrets.API_KEY }}
-          API_SECRET:            ${{ secrets.API_SECRET }}
-          API_PASSPHRASE:        ${{ secrets.API_PASSPHRASE }}
-          SYMBOL:                ${{ secrets.SYMBOL }}
-          CAPITAL_TOTAL:         ${{ secrets.CAPITAL_TOTAL }}
-          MARGIN_PCT:            ${{ secrets.MARGIN_PCT }}
-          LEVERAGE:              ${{ secrets.LEVERAGE }}
-          MAX_RISK_USDT:         ${{ secrets.MAX_RISK_USDT }}
-          MIN_RR_RATIO:          ${{ secrets.MIN_RR_RATIO }}
-          LONG_ENTRY_OFFSET:     ${{ secrets.LONG_ENTRY_OFFSET }}
-          LONG_SL_OFFSET:        ${{ secrets.LONG_SL_OFFSET }}
-          LONG_PULLBACK_MAX:     ${{ secrets.LONG_PULLBACK_MAX }}
-          SHORT_ENTRY_OFFSET:    ${{ secrets.SHORT_ENTRY_OFFSET }}
-          SHORT_SL_OFFSET:       ${{ secrets.SHORT_SL_OFFSET }}
-          SHORT_TP1_OFFSET:      ${{ secrets.SHORT_TP1_OFFSET }}
-          SHORT_TP2_OFFSET:      ${{ secrets.SHORT_TP2_OFFSET }}
+          EXCHANGE_NAME: ${{ secrets.EXCHANGE_NAME }}
+          API_KEY: ${{ secrets.API_KEY }}
+          API_SECRET: ${{ secrets.API_SECRET }}
+          API_PASSPHRASE: ${{ secrets.API_PASSPHRASE }}
+          SYMBOL: ${{ secrets.SYMBOL }}
+          CAPITAL_TOTAL: ${{ secrets.CAPITAL_TOTAL }}
+          MARGIN_PCT: ${{ secrets.MARGIN_PCT }}
+          LEVERAGE: ${{ secrets.LEVERAGE }}
+          MAX_RISK_USDT: ${{ secrets.MAX_RISK_USDT }}
+          MIN_RR_RATIO: ${{ secrets.MIN_RR_RATIO }}
+          LONG_ENTRY_OFFSET: ${{ secrets.LONG_ENTRY_OFFSET }}
+          LONG_SL_OFFSET: ${{ secrets.LONG_SL_OFFSET }}
+          LONG_PULLBACK_MAX: ${{ secrets.LONG_PULLBACK_MAX }}
+          SHORT_ENTRY_OFFSET: ${{ secrets.SHORT_ENTRY_OFFSET }}
+          SHORT_SL_OFFSET: ${{ secrets.SHORT_SL_OFFSET }}
+          SHORT_TP1_OFFSET: ${{ secrets.SHORT_TP1_OFFSET }}
+          SHORT_TP2_OFFSET: ${{ secrets.SHORT_TP2_OFFSET }}
           LOOP_INTERVAL_SECONDS: ${{ secrets.LOOP_INTERVAL_SECONDS }}
-          PAPER_TRADING:         ${{ secrets.PAPER_TRADING }}
-          OKX_DEMO:              ${{ secrets.OKX_DEMO }}
-          TELEGRAM_TOKEN:        ${{ secrets.TELEGRAM_TOKEN }}
-          TELEGRAM_CHAT_ID:      ${{ secrets.TELEGRAM_CHAT_ID }}
+          PAPER_TRADING: ${{ secrets.PAPER_TRADING }}
+          OKX_DEMO: ${{ secrets.OKX_DEMO }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
