@@ -30,7 +30,7 @@ def execute_cycle(client, strategy, risk, pm, notifier):
 
         if reason == "CHOP_ZONE":
             notifier.send(
-                f"🔶 Precio en rango — Sin operación\n"
+                f"[CHOP] Precio en rango — Sin operación\n"
                 f"BTC: <b>{current_price:.2f}</b> USDT"
             )
         elif signal:
@@ -41,7 +41,7 @@ def execute_cycle(client, strategy, risk, pm, notifier):
             )
             valid, qty, msg = risk.validate_trade(signal)
             if not valid:
-                notifier.send(f"⚠️ Rechazada:\n{msg}")
+                notifier.send(f"[WARN] Rechazada:\n{msg}")
             else:
                 order = client.create_limit_order(
                     side=signal["side"],
@@ -64,7 +64,7 @@ def execute_cycle(client, strategy, risk, pm, notifier):
 def run_once():
     """Ejecuta UN solo ciclo — usado por GitHub Actions."""
     log.info("=" * 50)
-    log.info("🔁 Ciclo único | Paper: %s", PAPER_TRADING)
+    log.info("[SINGLE] Ciclo único | Paper: %s", PAPER_TRADING)
     log.info("=" * 50)
 
     client = ExchangeClient()
@@ -84,7 +84,7 @@ def run_once():
 def run_bot():
     """Loop infinito — usado en VPS."""
     log.info("=" * 50)
-    log.info("🚀 Bot iniciado en loop | Paper: %s", PAPER_TRADING)
+    log.info("[START] Bot iniciado en loop | Paper: %s", PAPER_TRADING)
     log.info("=" * 50)
 
     client = ExchangeClient()

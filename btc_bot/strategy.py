@@ -113,7 +113,7 @@ class BreakoutStrategy:
         s = self.levels["support_1"]
         r = self.levels["resistance_1"]
         if s <= current_price <= r:
-            log.info(f"🔶 CHOP ZONE — Precio {current_price:.2f} en rango "
+            log.info(f"[CHOP] CHOP ZONE — Precio {current_price:.2f} en rango "
                      f"[{s:.2f} – {r:.2f}]. Sin operación.")
             return True
         return False

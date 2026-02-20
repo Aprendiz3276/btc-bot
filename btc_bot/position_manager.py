@@ -195,7 +195,7 @@ class PositionManager:
         try:
             params = {"reduceOnly": True}
             self.client.create_market_order(close_side, qty, params)
-            msg = (f"🎯 TP2 alcanzado @ {price:.2f} | "
+            msg = (f"[TP2] TP2 alcanzado @ {price:.2f} | "
                    f"Cerrado {qty:.6f} BTC (100% restante)")
             log.info(msg)
             if self.notifier:

@@ -49,4 +49,3 @@ jobs:
           OKX_DEMO: ${{ secrets.OKX_DEMO }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-

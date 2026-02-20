@@ -80,7 +80,7 @@ class RiskManager:
         # ── 1. Calcular R:R ────────────────────────────────────────────────
         rr = self.calculate_rr(entry, sl, tp1, side)
         if rr < MIN_RR_RATIO:
-            msg = (f"❌ R:R insuficiente: {rr:.2f} < {MIN_RR_RATIO} requerido. "
+            msg = (f"[REJECT] R:R insuficiente: {rr:.2f} < {MIN_RR_RATIO} requerido. "
                    f"Operación rechazada.")
             log.warning(msg)
             return False, 0.0, msg
@@ -90,7 +90,7 @@ class RiskManager:
         real_risk = self.calculate_real_risk(qty, entry, sl, side)
 
         if real_risk > MAX_RISK_USDT:
-            msg = (f"❌ Riesgo real {real_risk:.2f} USDT > "
+            msg = (f"[REJECT] Riesgo real {real_risk:.2f} USDT > "
                    f"máximo permitido {MAX_RISK_USDT} USDT. "
                    f"Operación rechazada.")
             log.warning(msg)

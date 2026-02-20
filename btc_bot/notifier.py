@@ -25,7 +25,7 @@ class TelegramNotifier:
         url = f"https://api.telegram.org/bot{self.token}/sendMessage"
         payload = {
             "chat_id": self.chat_id,
-            "text":    f"🤖 BTC Bot\n\n{message}",
+            "text":    f"[BOT] BTC Bot\n\n{message}",
             "parse_mode": "HTML",
         }
         try:
